@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_db_instance" "meu_banco_dados" {
   identifier             = var.db_instance_name  # Nome do banco de dados
   engine                = "mysql"  # Tipo de banco de dados
-  engine_version        = "8.0"  # Versão do banco
+  engine_version        = "8.0.35"  # Versão do banco
   instance_class        = "db.t2.micro"  # Tipo de instância
   allocated_storage      = 20  # Espaço em GB
   username              = var.db_username  # Nome de usuário
