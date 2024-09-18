@@ -1,44 +1,24 @@
-variable "aws_region" {
-  description = "A região da AWS onde a infraestrutura será criada."
-  default     = "us-east-1"
+variable "db_instance_name" {
+  description = "Nome da instância do banco de dados"
+  type        = string
+  default     = "fiap-self-service-db"
 }
 
-variable "allocated_storage" {
-  description = "Espaço de armazenamento alocado para o banco de dados (em GB)."
-  default     = 20
-}
-
-variable "engine" {
-  description = "O mecanismo de banco de dados a ser usado (ex: 'mysql', 'postgres')."
-  default     = "mysql"
-}
-
-variable "engine_version" {
-  description = "A versão do mecanismo de banco de dados."
-  default     = "8.0"
-}
-
-variable "instance_class" {
-  description = "Tipo de instância do banco de dados."
-  default     = "db.t2.micro"
-}
-
-variable "db_name" {
-  description = "Nome do banco de dados."
-  default = "fiap-self-service-db"
-}
-
-variable "db_user" {
-  description = "Usuário administrador do banco de dados."
-  default = "root"
+variable "db_username" {
+  description = "Nome do usuário do banco de dados"
+  type        = string
+  default     = "fiap-self-service"
 }
 
 variable "db_password" {
-  description = "Senha do banco de dados."
-  default = "root"
+  description = "Senha do usuário do banco de dados"
+  type        = string
+  default     = "fiap-self-service"
+  sensitive   = true  # Para não expor a senha nos logs
 }
 
-variable "parameter_group" {
-  description = "Nome do grupo de parâmetros do DB."
-  default     = "default.mysql8.0"
+variable "db_name" {
+  description = "Nome do banco de dados"
+  type        = string
+  default     = "fiapSelfServiceDB"
 }
