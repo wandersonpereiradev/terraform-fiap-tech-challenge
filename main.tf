@@ -15,5 +15,5 @@ resource "aws_db_instance" "meu_banco_dados" {
 }
 
 output "endpoint" {
-  value = aws_db_instance.meu_banco_dados.endpoint
+  value = fiap-self-service-db.c1e20soeux3p.us-east-1.rds.amazonaws.com
 }
