@@ -9,7 +9,7 @@ resource "aws_db_instance" "db_instance" {
   instance_class       = var.instance_class
   db_name              = "fiapSelfServiceDb"
   username             = "root"
-  password             = "root"
+  password             = "fiaproot"
   parameter_group_name = var.parameter_group
   publicly_accessible  = false
   skip_final_snapshot  = true
