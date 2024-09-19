@@ -29,7 +29,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -lock=false
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
