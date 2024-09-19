@@ -7,5 +7,4 @@ variable "db_password" {
   description = "RDS root user password"
   sensitive   = true
   type        = string
-  value       = "fiap-self-service-2024"
 }
