@@ -23,6 +23,21 @@ variable "instance_class" {
   default     = "db.t3.micro"
 }
 
+variable "db_name" {
+  description = "Nome do banco de dados."
+  default     = "fiapSelfServiceDb"
+}
+
+variable "db_user" {
+  description = "Usuário administrador do banco de dados."
+  default     = "root"
+}
+
+variable "db_password" {
+  description = "Senha do banco de dados."
+  default     = "root"
+}
+
 variable "parameter_group" {
   description = "Nome do grupo de parâmetros do DB."
   default     = "default.mysql8.0"
