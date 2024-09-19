@@ -25,17 +25,17 @@ variable "instance_class" {
 
 variable "db_name" {
   description = "Nome do banco de dados."
-  default     = "my_database"
+  default     = "fiap-self-service-db"
 }
 
 variable "db_user" {
   description = "Usuário administrador do banco de dados."
-  default     = "admin"
+  default     = "root"
 }
 
 variable "db_password" {
   description = "Senha do banco de dados."
-  default     = "password123"
+  default     = "root"
 }
 
 variable "parameter_group" {
