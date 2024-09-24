@@ -4,9 +4,16 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      destroy:
+        description: 'Destruir a infraestrutura?'
+        required: true
+        default: 'false'
 
 jobs:
-  terraform:
+  terraform-init:
+    name: Inicializar o Terraform
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +37,46 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -lock=false
+  
+  terraform-apply:
+    name: Aplicar as mudanças do Terraform
+    runs-on: ubuntu-latest
+    needs: terraform-init
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve -lock=false
+
+  terraform-destroy:
+    name: Destruir a infraestrutura com Terraform
+    runs-on: ubuntu-latest
+    if: github.event.inputs.destroy == 'true'
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve 
