@@ -23,6 +23,38 @@ resource "aws_db_instance" "db_instance" {
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
 }
 
+# Criar VPC
+resource "aws_vpc" "main_vpc" {
+  cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name = "main-vpc"
+  }
+}
+
+# Subredes em diferentes zonas de disponibilidade (AZs)
+resource "aws_subnet" "subnet_1" {
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"  # Zona de disponibilidade 1
+}
+
+resource "aws_subnet" "subnet_2" {
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "us-east-1b"  # Zona de disponibilidade 2
+}
+
+# Grupo de sub-redes para o DocumentDB
+resource "aws_docdb_subnet_group" "docdb_subnet_group" {
+  name       = "fiap-self-service-pagamentos-subnet-group"
+  subnet_ids = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
+
+  tags = {
+    Name = "fiap-self-service-pagamentos-subnet-group"
+  }
+}
+
 resource "aws_docdb_cluster_instance" "docdb_instance" {
   identifier           = "fiap-self-service-document-db-instance"
   cluster_identifier   = aws_docdb_cluster.docdb_cluster.id
